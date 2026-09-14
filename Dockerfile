@@ -16,7 +16,8 @@ COPY Pipfile Pipfile.lock /app/
 
 RUN pipenv install --system --deploy
 
-COPY entrypoint.sh /app/entrypoint.sh
+COPY entrypoint.sh* src/entrypoint.sh* /app/
+
 RUN chmod +x /app/entrypoint.sh
 
 COPY src/ /app/
