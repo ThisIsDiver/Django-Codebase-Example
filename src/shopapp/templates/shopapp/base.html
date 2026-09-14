@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}
+            Base title
+        {% endblock %}
+    </title>
+    <style>
+        header {
+                height: auto;
+                align-items: right;
+            }
+            
+            header > div {
+                display: flex;
+                justify-content: space-between;
+                
+            }
+    </style>
+</head>
+<body>
+    {% if request.user.is_authenticated %}
+    <header>
+        <div>
+            <span>Hello, {{ request.user.username }}!</span>
+            <div>
+                <a href="{% url 'myauth:update' %}" class="btn btn-primary">edit</a>
+                <form action="{% url 'myauth:logout' %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Logout</button>
+                </form>
+            </div>
+        </div>
+    </header>
+    {% endif %}
+{% block body %}
+base body
+{% endblock %}
+<div>
+{% now "H:i" %}
+</div>
+<div>
+    {% now "l" as current_weekday %}
+    Today is {{ current_weekday }}
+</div>
+</body>
+</html>

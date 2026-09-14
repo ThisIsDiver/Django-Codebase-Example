@@ -1,0 +1,42 @@
+{% extends "shopapp/base.html" %}
+
+{% block title %}
+Orders list
+{% endblock %}
+
+{% block body %}
+
+    <h3>Orders list</h3>
+
+    {% if orders %}
+        <table border=1>
+            <tr>
+                <td>ID</td>
+                <td>Пользователь</td>
+                <td>Адрес</td>
+                <td>Промокод</td>
+                <td>Создан</td>
+                <td>Продукты</td>
+            </tr>
+        {% for order in orders %}
+            <tr>
+                <td><a href="{% url 'shopapp:order_details' pk=order.pk %}">{{ order.pk }}</td>
+                <td>{% firstof order.user.first_name order.user.username %}</td>
+                <td>{{order.delivery_address}}</td> 
+                <td>{{ order.promocode }}</td> 
+                <td>{{ order.created_at }}</td>
+                <td> {% for product in order.products.all %}
+                <span>{{ product.name }}</span>{% if not forloop.last %}, {% endif %} {% endfor %}
+            </tr>
+        {% endfor %}
+        </table>
+    {% else %}
+        No orders yet
+    {% endif %}
+    <div>
+        <a href="{% url "shopapp:create_order" %}">
+        Create a new order
+        </a>
+    </div>
+{% endblock %}
+

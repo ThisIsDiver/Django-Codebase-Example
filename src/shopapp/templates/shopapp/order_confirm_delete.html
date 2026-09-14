@@ -1,0 +1,17 @@
+{% extends "shopapp/base.html" %}
+
+{% block title %}
+Delete order #{{ object.pk }}
+{% endblock %}
+
+{% block body %}
+<form method="POST">
+    {% csrf_token %}
+    <p>Are you sure delete this order from DB? - <strong>{{ object.pk }}</strong></p>
+    <button type="submit">Yes, delete</button>
+    <br>
+    <a href="{% url "shopapp:orders_list" %}">
+        Back to orders list
+    </a>
+</form>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "shopapp/base.html" %}
+{% load cache %}
+
+{% block title %}
+	{{ selected_user.username }}'s orders
+{% endblock %}
+
+{% block body %}
+	<div>
+    <h1>{{ selected_user.username }}'s Orders</h1>
+    </div>
+    {% cache 30 order_user_cache selected_user.username %}
+    {% if orders %}
+        <table>
+        <thead>
+        <th>Products</th>
+        <th>Delivery Address</th>
+        <th>Promocode</th>
+        <th>Receipt</th>
+        <th>Created At</th>
+        </thead>
+        <tbody>
+        {% for order in orders %}
+    		<tr>
+            <td> {% for product in order.products.all %}
+                <span>{{ product.name }}</span>{% if not forloop.last %}, {% endif %} {% endfor %}</td>
+            <td>{{ order.delivery_address }}</td>
+            <td>{{ order.promocode }}</td>
+            <td>{{ order.receipt }}</td>
+            <td>{{ order.created_at }}</td>
+            </tr>
+    	{% endfor %}
+        </tbody>
+        </table>
+    {% else %}
+        <p>No orders found for this user.</p>
+    {% endif %}
+    {% endcache %}
+{% endblock %}

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Auth{% endblock %}</title>
+    <style>
+        header {
+                height: 100px;
+            }
+            
+            header > div {
+                display: flex;
+                justify-content: space-between;
+                
+            }
+    </style>
+</head>
+<body>
+    {% if request.user.is_authenticated %}
+    <header>
+        <div>
+            <span>Hello, {{ request.user.username }}!</span>
+            <div>
+                <form action="{% url 'myauth:logout' %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Logout</button>
+                </form>
+            </div>
+        </div>
+    </header>
+    {% endif %}
+    {% block body %}
+    
+    {% endblock %}
+</body>
+</html>

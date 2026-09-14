@@ -1,0 +1,36 @@
+{% extends 'shopapp/base.html' %}
+{% load cache %}
+
+{% block title %}
+    Shop Index
+{% endblock %}
+
+{% block body %}
+
+<div>
+    Time running: {{ time_running }}
+
+</div>
+
+<div>
+    <ul>
+        {% for name, price in products %}
+        <li>
+            {{ name|capfirst }} ({{ name|length }}) - ${{ price }} 
+        </li>
+        {% if name|length == 2 %}
+            <span>Hmm... Mayby is my lucky day</span>
+        {% endif %}
+        {% empty %}
+        No products
+        {% endfor %}
+    </ul>
+</div>
+
+{% cache 10 lorem %}
+<div>
+    {% lorem 3 p random %}
+</div>
+{% endcache %}
+
+{% endblock %}

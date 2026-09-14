@@ -1,0 +1,28 @@
+{% extends "myauth/base.html" %}
+
+{% load cache %}
+
+{% block title %}About me{% endblock %}
+
+{% block body %}
+<h1>User info:</h1>
+{% if user.is_authenticated  %}
+    {% cache 10 userinfo user.username %}
+    <h2>Detail</h2>
+    <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+    </form>
+    {% if user.profile.avatar %}
+    	<img src="{{ user.profile.avatar.url }}" alt="{{ user.profile.avatar.name }}">
+    {% endif %}
+    <p>Username: {{ user.username }}</p>
+    <p>First name: {{ user.first_name }}</p>
+    <p>Last name: {{ user.last_name }}</p>
+    <p>Email: {{ user.email }}</p>
+    {% endcache %}
+{% else %}
+User is anonymous
+{% endif %}
+{% endblock %}

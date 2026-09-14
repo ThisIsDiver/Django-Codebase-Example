@@ -1,0 +1,40 @@
+{# type order: shopapp.models.Order #}
+
+{% extends "shopapp/base.html" %}
+
+{% block title %}
+    Order #{{ order.pk }}
+{% endblock %}
+
+{% block body %}
+    <h1>Order #{{ order.pk}}</h1>
+    <div>
+        <div>
+            Name: {% firstof order.user.first_name order.user.username %}
+        </div>
+        <div>
+            Delivery address: <strong>{{ order.delivery_address }}</strong>
+        </div>
+        {% if order.promocode %}
+        <div>
+            Promocode: <code>{{ order.promocode }}</code>
+        </div>
+        {% endif %}
+        <div>
+            Products: <strong>
+                {% for product in order.products.all %}
+                <span>{{ product.name }} ({{ product.price }})</span>{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </strong>
+        </div>
+        <div>
+            Created_at: <strong>{{ order.created_at }}</strong>
+        </div>
+    </div>
+    <div>
+        <a href="{% url 'shopapp:update_order' pk=order.pk %}">Edit</a> | <a href="{% url 'shopapp:delete_order' pk=order.pk %}">Delete</a>
+    </div>
+    <div>
+        <a href="{% url "shopapp:orders_list" %}">Back to orders list</a>
+    </div>   
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "requestdataapp/base.html" %}
+
+{% block title %}
+    Demo request
+{% endblock %}
+
+{% block body %}
+    <h1>TEST {% firstof request.GET.name 'User'%} request</h1>
+    <pre>
+        a = '{{ a }}'
+        b = '{{ b }}'
+        result = {{ result }}
+    </pre>
+{% endblock %}request
